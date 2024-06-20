@@ -42,22 +42,36 @@ const TeaItem = (props) => {
   const onCategoryChanged = (newCategory) => {
     props.setCategory(newCategory.target.value);
   }
+  const onTeaTypeChanged = (newTeaType) => {
+    props.setTeaType(newTeaType.target.value);
+  }
+
 
   return (
     <div>
       <div>
-      <select class="form-select" aria-label="Select the searching category" onChange={onCategoryChanged}>
+        <label htmlFor="tea_type_cat">Select the tea type</label>
+      <select class="form-select mx-3 my-4" id="tea_type_cat" aria-label="Select the tea_type" onChange={onTeaTypeChanged}>
+  <option value="all">All</option>
+  <option value="name">Ooloong</option>
+  <option value="description">White tea</option>
+  <option value="description">Black tea</option>
+  <option value="description">Green tea</option>
+</select>
+
+      <select class="form-select mx-3" aria-label="Select the searching category" onChange={onCategoryChanged}>
   <option value="all">All</option>
   <option value="name">Tea name</option>
   <option value="description">Tea Description</option>
 </select>
-        <input type="text" placeholder="Search" onChange={onSearch}/>
+        <input type="text mx-5" placeholder="Search" onChange={onSearch}/>
       </div>
       {
         props.items.filter((tea) => 
         props.category == 'all' || 
         ( props.category === "name" && (tea.name.toLowerCase().includes(props.search.toLowerCase()) || tea.original_name.toLowerCase().includes(props.search.toLowerCase()))) ||
         props.category === "description" && tea.description.toLowerCase().includes(props.search.toLowerCase()))
+        .filter((tea) => props.tea_type === 'all' || tea.tea_type === props.tea_type)
         .map(obj => {
           return (
             <TeaCard 

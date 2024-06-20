@@ -15,6 +15,7 @@ function App() {
   const [favouriteItems, setFavouriteItems] = useState([])
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
+  const [tea_type, setTea_type] = useState('all')
 
   useEffect (()=>{
     async function axiosData(){
@@ -76,7 +77,9 @@ function App() {
             setSearch={setSearch}
             search={search}
             setCategory={setCategory}
-            category={category} />
+            category={category}
+            tea_type={tea_type}
+            setTeaType={setTea_type} />
           } />
 
           <Route path="/overlay" element={
