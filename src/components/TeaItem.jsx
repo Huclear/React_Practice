@@ -36,11 +36,29 @@ const TeaItem = (props) => {
     }
   }
 
+  const onSearch = (searchString) => {
+    props.setSearch(searchString.target.value)
+  }
+  const onCategoryChanged = (newCategory) => {
+    props.setCategory(newCategory.target.value);
+  }
 
   return (
     <div>
+      <div>
+      <select class="form-select" aria-label="Select the searching category" onChange={onCategoryChanged}>
+  <option value="all">All</option>
+  <option value="name">Tea name</option>
+  <option value="description">Tea Description</option>
+</select>
+        <input type="text" placeholder="Search" onChange={onSearch}/>
+      </div>
       {
-        props.items.map(obj => {
+        props.items.filter((tea) => 
+        props.category == 'all' || 
+        ( props.category === "name" && (tea.name.toLowerCase().includes(props.search.toLowerCase()) || tea.original_name.toLowerCase().includes(props.search.toLowerCase()))) ||
+        props.category === "description" && tea.description.toLowerCase().includes(props.search.toLowerCase()))
+        .map(obj => {
           return (
             <TeaCard 
             name={obj.name}
