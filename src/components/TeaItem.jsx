@@ -53,10 +53,10 @@ const TeaItem = (props) => {
         <label htmlFor="tea_type_cat">Select the tea type</label>
       <select class="form-select mx-3 my-4" id="tea_type_cat" aria-label="Select the tea_type" onChange={onTeaTypeChanged}>
   <option value="all">All</option>
-  <option value="name">Ooloong</option>
-  <option value="description">White tea</option>
-  <option value="description">Black tea</option>
-  <option value="description">Green tea</option>
+  <option value="Oolong">Oolong</option>
+  <option value="white tea">White tea</option>
+  <option value="black tea">Black tea</option>
+  <option value="green tea">Green tea</option>
 </select>
 
       <select class="form-select mx-3" aria-label="Select the searching category" onChange={onCategoryChanged}>
