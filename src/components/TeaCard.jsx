@@ -3,6 +3,7 @@ import React from 'react';
 import Button from'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { APP_CONTEXT } from '../App';
+import {motion} from "framer-motion"
 
 const TeaCard = (props) => {
 
@@ -16,9 +17,18 @@ const TeaCard = (props) => {
     const {id, personalID, price:price, name:name, description:description, original_name:original_name, tea_type:tea_type, imageUrl:imageUrl} = props;
     props.onAddToFavourites({id, personalID, price, name, description, original_name, tea_type, imageUrl});
   }
+  const onsetSelectedTeaClick = () => {
+    const {id, personalID, price:price, name:name, description:description, original_name:original_name, tea_type:tea_type, imageUrl:imageUrl} = props;
+    props.setSelectedTea({id, personalID, price, name, description, original_name, tea_type, imageUrl});
+  }
 
   return (
-    <Card style={{ width: '18rem',
+    <motion.div
+    class="w-25 p-3 mx-5"
+    whileHover={{ scale: [null, 1.1, 1.1] }}
+      transition={{ duration: 0.3 }}>
+    <Card onClick={onsetSelectedTeaClick}
+    style={{ width: '18rem',
     margin: '16px' }}>
       <Card.Body>
         <Card.Title>{props.name} ({props.original_name})</Card.Title>
@@ -27,30 +37,36 @@ const TeaCard = (props) => {
           {props.description}
         </Card.Text>
         <Card.Link variant="primary" href={props.imageUrl}>View tea image</Card.Link>
-        <Button style={{
+        <motion.button style={{
           marginLeft: '10px',
         }}
         onClick={onAddToOverlayClick}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         >
           {
             context.isAdded(props.personalID) ? "Added": "Add to overlay"
           }
-        </Button>
-        <Button style={{
+        </motion.button>
+
+        <motion.button style={{
           marginLeft: '4px',
           marginTop: '8px',
         }}
         onClick={onAddToFavouritesClick}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         >
           {
             context.isAddedToFavourites(props.personalID) ? "In Favourites": "Add to favourites"
           }
-        </Button>
+        </motion.button>
         <Card.Text>
           Price: {Number(props.price)}$
         </Card.Text>
       </Card.Body>
     </Card>
+    </motion.div>
   );
 }
 

@@ -6,6 +6,7 @@ import {Route, Routes} from 'react-router-dom';
 import TeaOverlay from './components/Overlay';
 import TeaHeader from './components/NavBars';
 import TeaFavourites from './components/Favourites';
+import TeaPage from './components/TeaPage';
 
 export const APP_CONTEXT = React.createContext({});
 
@@ -16,6 +17,7 @@ function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
   const [tea_type, setTea_type] = useState('all')
+  const [selectedTea, setSelectedTea] = useState("")
 
   useEffect (()=>{
     async function axiosData(){
@@ -79,7 +81,9 @@ function App() {
             setCategory={setCategory}
             category={category}
             tea_type={tea_type}
-            setTeaType={setTea_type} />
+            setTeaType={setTea_type}
+            selectedTea={selectedTea}
+            setSelectedTea={setSelectedTea} />
           } />
 
           <Route path="/overlay" element={
@@ -94,6 +98,17 @@ function App() {
             favouriteItems={favouriteItems}
             deleteTea={deleteTeaFromFavourites}/>
           }/>
+
+          <Route path="*" element={
+            <TeaPage
+            name={selectedTea.name}
+            personalID={selectedTea.personalID}
+            original_name={selectedTea.original_name}
+            tea_type={selectedTea.tea_type}
+            imageUrl={selectedTea.imageUrl}
+            description={selectedTea.description}
+            price={selectedTea.price}/>
+          } />
         </Routes>
       </div>
     </APP_CONTEXT.Provider>

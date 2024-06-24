@@ -2,8 +2,12 @@ import React from 'react';
 import TeaCard from './TeaCard';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {motion} from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const TeaItem = (props) => {
+
+  const navigate = useNavigate();
 
   const onAddOverlay = (obj) => {
     try {
@@ -35,6 +39,16 @@ const TeaItem = (props) => {
       alert(err);
     }
   }
+  
+  const onSetSelected = (obj) => {
+    try {
+        props.setSelectedTea(obj);
+        navigate("/Tea")
+    }
+    catch (err) {
+      alert(err);
+    }
+  }
 
   const onSearch = (searchString) => {
     props.setSearch(searchString.target.value)
@@ -48,17 +62,24 @@ const TeaItem = (props) => {
 
 
   return (
-    <div>
+    <motion.div
+    initial = {{x: -100, y: -100}}
+    animate={{ x: 25, y: 0 }}
+    transition={{ ease: "easeOut", duration: 1.5 }}>
       <div>
         <label htmlFor="tea_type_cat">Select the tea type</label>
-      <select class="form-select mx-3 my-4" id="tea_type_cat" aria-label="Select the tea_type" onChange={onTeaTypeChanged}>
-  <option value="all">All</option>
-  <option value="Oolong">Oolong</option>
-  <option value="white tea">White tea</option>
-  <option value="black tea">Black tea</option>
-  <option value="green tea">Green tea</option>
-</select>
-
+        <motion.select
+        class="form-select mx-3 my-4"
+        id="tea_type_cat" 
+        aria-label="Select the tea_type" 
+        onChange={onTeaTypeChanged}
+        >
+          <motion.option option value="all">All</motion.option>
+          <motion.option className="bg-transparent" value="Oolong">Oolong</motion.option>
+          <motion.option className="bg-transparent" value="white tea">White tea</motion.option>
+          <motion.option className="bg-transparent" value="black tea">Black tea</motion.option>
+          <motion.option className="bg-transparent" value="green tea">Green tea</motion.option>
+        </motion.select>
       <select class="form-select mx-3" aria-label="Select the searching category" onChange={onCategoryChanged}>
   <option value="all">All</option>
   <option value="name">Tea name</option>
@@ -74,7 +95,7 @@ const TeaItem = (props) => {
         .filter((tea) => props.tea_type === 'all' || tea.tea_type === props.tea_type)
         .map(obj => {
           return (
-            <TeaCard 
+            <TeaCard
             name={obj.name}
             personalID={obj.personalID}
             original_name={obj.original_name}
@@ -84,11 +105,12 @@ const TeaItem = (props) => {
             price={obj.price}
             onAdd={(obj) => onAddOverlay(obj)}
             onAddToFavourites={(obj) => onAddFavourite(obj)}
+            setSelectedTea={onSetSelected}
             />
           )
         })
       }
-    </div>
+    </motion.div>
   )
 }
 export default TeaItem
